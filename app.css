@@ -1,0 +1,9 @@
+body {
+    background-color: #0f0f0f;
+    color: #efefef;
+    text-align: center;
+}
+
+button:hover {
+    cursor: pointer;
+}
