@@ -7,3 +7,23 @@ body {
 button:hover {
     cursor: pointer;
 }
+
+.controls {
+    margin-bottom: 1rem;
+}
+
+button img {
+    max-width: 20px;
+}
+
+:root {
+    color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+    body { background: #333; color: white; }
+}
+
+@media (prefers-color-scheme: light) {
+    body { background: #ddd; color: black; }
+}

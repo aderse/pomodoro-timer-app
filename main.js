@@ -1,15 +1,39 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron')
+const path = require('node:path')
 
-let mainWindow;
-
-app.on('ready', () => {
-    mainWindow = new BrowserWindow({
+const createWindow = () => {
+    const win = new BrowserWindow({
         width: 400,
         height: 200,
         webPreferences: {
-            nodeIntegration: true
+            preload: path.join(__dirname, 'preload.js')
         }
-    });
+    })
 
-    mainWindow.loadFile('index.html');
-});
+    win.loadFile('index.html')
+
+    ipcMain.handle('dark-mode:toggle', () => {
+        if (nativeTheme.shouldUseDarkColors) {
+            nativeTheme.themeSource = 'light'
+        } else {
+            nativeTheme.themeSource = 'dark'
+        }
+        return nativeTheme.shouldUseDarkColors
+    })
+}
+
+app.whenReady().then(() => {
+    createWindow()
+
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow()
+        }
+    })
+})
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
+})

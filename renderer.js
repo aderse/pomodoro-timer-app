@@ -2,6 +2,11 @@ let timer;
 let timeLeft = 1500; // 25 minutes in seconds
 let isRunning = false;
 
+document.getElementById('toggle-dark-mode').addEventListener('click', async () => {
+    const isDarkMode = await window.darkMode.toggle()
+    document.getElementById('theme-source').innerHTML = isDarkMode ? 'Dark' : 'Light'
+})
+
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
